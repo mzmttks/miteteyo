@@ -6,8 +6,8 @@ import pprint
 app = Flask(__name__)
 
 client = MongoClient(os.environ["MONGOLAB_URI"])
-db = client.miteteyo
-col = db.locations
+db = client["heroku_gw4w78g9"]
+col = db["locations"]
 print col
 
 @app.route('/location', methods=["POST"])
@@ -18,6 +18,7 @@ def addLocation():
 @app.route('/')
 def hello_world():
   locs = [d for d in col.find({})]
+  print pprint.pformat(locs)
   return pprint.pformat(locs)
 
 if __name__ == '__main__':
