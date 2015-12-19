@@ -12,6 +12,7 @@ print col
 
 @app.route('/location', methods=["POST"])
 def addLocation():
+  print request.json
   col.insert(request.data)
 
 @app.route('/')
