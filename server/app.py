@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from pymongo import MongoClient
 import os
 import json
@@ -8,6 +8,7 @@ app = Flask(__name__)
 client = MongoClient(os.environ["MONGOLAB_URI"])
 db = client.miteteyo
 col = db.locations
+print col
 
 @app.route('/location', methods=["POST"])
 def addLocation():
@@ -19,4 +20,4 @@ def hello_world():
   return pprint.pformat(locs)
 
 if __name__ == '__main__':
-  app.run()
+  app.run(debug=True)
