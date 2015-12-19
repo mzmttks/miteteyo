@@ -8,11 +8,11 @@ from gps import *
 from time import *
 import time
 import threading
-import httplib
+import urllib2
 
-SERVER_ADDRESS = 'https://miteteyo.herokuapp.com'
+SERVER_ADDRESS = 'miteteyo.herokuapp.com'
 SERVER_RESOURCE = '/location'
-HEADERS = {"Content-type": "application/json", "Accept": "text/plain"}
+HEADERS = {"Content-type": "application/json"}
 USERID = 'test1'
 
 gpsd = None #seting the global variable
@@ -32,15 +32,10 @@ class GpsPoller(threading.Thread):
       gpsd.next() #this will continue to loop and grab EACH set of gpsd info to clear the buffer
 
 def postGpsData(userid, latitude, longitude, utcTime):
-  params = urllib.urlencode({'userid': userid, 'latitude': latitude, 'longitude': longitude, 'utcTime': utcTime})
-  headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
-
-  conn = httplib.HTTPSConnection(SERVER_ADDRESS)
-  conn.request("POST", SERVER_RESOURCE, params, HEADERS)
-  res = conn.getresponse()
-  print res.status, res.reason
-  #data = res.read()
-  conn.close()
+  data = {'userid': userid, 'latitude': latitude, 'longitude': longitude, 'utcTime':str(utcTime)}
+  req = urllib2.Request("https://%s%s" % (SERVER_ADDRESS,SERVER_RESOURCE))
+  req.add_header('Content-Type', 'application/json')
+  res = urllib2.urlopen(req, json.dumps(data))
 
 if __name__ == '__main__':
   gpsp = GpsPoller() # create the thread
@@ -54,7 +49,7 @@ if __name__ == '__main__':
 
       latitude = gpsd.fix.latitude
       longitude = gpsd.fix.longitude
-      utcTime = gpsd.utc,' + ', gpsd.fix.time
+      utcTime = gpsd.utc
       
       print
       print ' GPS reading'
