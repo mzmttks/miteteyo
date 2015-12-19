@@ -12,9 +12,12 @@ print col
 
 @app.route('/location', methods=["POST"])
 def addLocation():
-  print "REQUEST.JSON"
-  print "---", request.json, "---"
-  print "---", col.insert_one(request.data)
+  try:
+    print "REQUEST.JSON", "---", request.json, "---"
+    col.insert_one(request.json)
+  except Exception as e:
+    import traceback
+    print traceback.format_exc()
   
 
 @app.route('/')
