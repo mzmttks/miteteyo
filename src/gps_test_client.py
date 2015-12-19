@@ -12,7 +12,7 @@ import httplib
 
 SERVER_ADDRESS = 'https://miteteyo.herokuapp.com'
 SERVER_RESOURCE = '/location'
-HEADERS = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+HEADERS = {"Content-type": "application/json", "Accept": "text/plain"}
 USERID = 'test1'
 
 gpsd = None #seting the global variable
