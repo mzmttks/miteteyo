@@ -13,7 +13,6 @@ print col
 @app.route('/location', methods=["POST"])
 def addLocation():
   try:
-    print "REQUEST.JSON", "---", request.json, "---"
     col.insert_one(request.json)
   except Exception as e:
     import traceback
@@ -24,7 +23,7 @@ def addLocation():
 def hello_world():
   locs = [d for d in col.find({})]
   print pprint.pformat(locs)
-  return pprint.pformat(locs)
+  return "<pre>" + pprint.pformat(locs) + "</pre>"
 
 if __name__ == '__main__':
   app.run(debug=True)
