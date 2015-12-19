@@ -18,7 +18,7 @@ def addLocation():
   except Exception as e:
     import traceback
     print traceback.format_exc()
-  
+  return "ok" 
 
 @app.route('/')
 def hello_world():
